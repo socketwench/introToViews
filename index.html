@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to Drupal Views -- Twin Cities Drupalcamp 2013</title>
+
+		<meta name="description" content="A basic introduction to the views module">
+		<meta name="author" content="Tess Flynn">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/drupal.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+    <section>
+        <h1>
+            <br>
+            </h1>
+<h1>
+<span style="font-size: 135.72px;">Introduction to Drupal views</span>
+            <br>
+</h1>
+<div>
+            <font style="font-size: 24px;">(or, keeping your ducks in a row)</font>
+        </div>
+    </section>
+    <section>
+        <section>
+            <h2>Who is this person?</h2>
+<div style="height: 505px;">
+<img src="images/BordingPass.jpg" style="">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>
+                <br>
+            </h2>
+<h2>Tess Flynn</h2>
+<div>or</div>
+<div>
+            <br>
+        </div>
+<div>@socketwench</div>
+<div>
+        <br>
+    </div>
+<div>on Drupal.org</div>
+<div>and most social networks</div>
+<div>
+    <br>
+    </div>
+<div>"That's wench, not wrench"</div>
+</section>
+<section>
+    <h2>Module Maintainer</h2>
+<div>
+<span style="font-size: 35.963829040527344px;">Flag Module</span>
+    <br>
+</div>
+<div>
+<img src="images/overview.png" style="font-size: 35.963829040527344px;">
+    <br>
+</div>
+<div class="fragment" data-fragment-index="0">(kinda, @joachim does most of the work)&nbsp;</div>
+</section>
+<section>
+<h2>
+<span style="font-size: 75.96px;">Module Maintainer</span>
+</h2>
+<div>Flag Friend</div>
+</section>
+<section>
+<h2>
+<span style="font-size: 75.96px;">Drupal 8 Core Contributor</span>
+    <br>
+</h2>
+<div class="fragment" data-fragment-index="0">One tiny patch for WSCCI</div>
+<div class="fragment" data-fragment-index="1">Attended TWIG sprint at DrupalCon Portland 2013</div>
+</section>
+</section>
+<section>
+    <section>
+<h2>
+<span style="font-size: 75.96px;">Why do we have views?</span>
+            <br>
+</h2>
+<div>
+            <br>
+        </div>
+<div>Back in the 4.x days...</div>
+<div>
+        <br>
+        </div>
+<div>There was no Field API</div>
+<div>No Views</div>
+<div>No CCK</div>
+    </section>
+    <section>
+        <h2>But what we did have was</h2>
+        <img src="images/Untitled_drawing.png">
+    </section>
+    <section>
+        <h2>It provided Two things</h2>
+        <div>
+          <img src="images/Untitled_drawing__1_.png">
+        </div>
+    </section>
+<section>
+    <h2>And, most importantly</h2>
+    <img src="images/Untitled_drawing__2_.png">
+<div>
+    <br>
+</div>
+</section>
+<section>
+<h2>
+<span style="font-size: 75.96px;">And things were great!</span>
+        <br>
+</h2>
+<div>
+        <br>
+    </div>
+<div class="fragment" data-fragment-index="0">Except...</div>
+<div>
+    <ul>
+<li class="fragment" data-fragment-index="1">If you couldn't find the content type you needed</li>
+<li class="fragment" data-fragment-index="2">Or you did, but needed one little change</li>
+<li class="fragment" data-fragment-index="3">And you're not a programmer</li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+    <section>
+        <h2>There has to be a better way</h2>
+        <img src="images/CCK_1.png">
+</section>
+<section>
+    <h2>User Configurable Content types</h2>
+    <img src="images/CCK_2.png">
+</section>
+<section>
+    <h2>Only Half of the Solution</h2>
+    <img src="images/CCK_3.png">
+</section>
+</section>
+<section>
+    <section>
+<h2>What is Views?</h2>
+<div>
+    <br>
+</div>
+<blockquote>...essentially a smart query builder that, given enough information, can build the proper query, execute it, and display the results.&nbsp;<br>
+</blockquote>
+<p>
+<br>
+</p>
+<p>Source: "drupal 7" by David Mercer&nbsp;</p>
+</section>
+<section>
+<h2>
+<span style="font-size: 76.03781127929688px;">Huh?</span>
+</h2>
+</section>
+<section data-background-image="images/views_page_today.png">
+</section>
+<section>
+<h2>No really, what is views?</h2>
+<div>
+    <br>
+</div>
+<div>Views is a Drupal module that allows you to:</div>
+<div>
+<ul>
+<li>Create dynamic pages</li>
+<li>Based on custom selection criteria</li>
+<li>Displayed how you choose</li>
+<li>That is themeable</li>
+<li>And exportable</li>
+</ul>
+</div>
+</section>
+<section data-transition="fade">
+    <h2>Views Takes us from this</h2>
+    <img src="images/Views_1.png">
+</section>
+<section data-transition="fade">
+    <h2>To this</h2>
+    <img src="images/Views_2.png">
+</section>
+<section data-transition="fade">
+    <h2>And today...</h2>
+    <img src="images/Views_3.png">
+</section>
+</section>
+<section>
+    <section data-background-size="initial" data-background-image="images/bathtub1.png">
+        <h2>How does Views work?</h2>
+<div>First, imagine a bathtub.</div>
+<div>
+        <br>
+    </div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div class="fragment" data-fragment-index="0">
+<font style="font-size: 18px;">(Just go with me on this...)</font>
+</div>
+</section>
+<section data-background-image="images/bathtub1.png" data-background-size="initial">
+    <h2>The bathtub is <i>Infrastructure</i>
+</h2>
+<div>Everything we need to take a bath</div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div class="fragment" data-fragment-index="0">Networking and server hardware</div>
+<div class="fragment" data-fragment-index="1">"Middleware" -- Apache, MySQL, PHP</div>
+<div class="fragment" data-fragment-index="2">Drupal core and module code</div>
+</section>
+<section data-background-image="images/bathtub2.png" data-background-size="initial">
+    <h2>Next, fill the bathtub</h2>
+<div class="fragment" data-fragment-index="0">The bathwater is our database!</div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div class="fragment" data-fragment-index="1">Fields,<span style="font-size: 35.9947624206543px;">&nbsp;variables, configuration, etc.</span>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section data-background-size="initial" data-background-image="images/bathtub2.png">
+    <h2>But something is missing</h2>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+</section>
+<section data-background-image="images/bathtub3.png" data-background-size="initial">
+    <h2>Duckies!</h2>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <p>&nbsp;</p>
+    </div>
+    <div>
+      <p>&nbsp;</p>
+    </div>
+</section>
+<section data-background-image="images/bathtub3.png" data-background-size="initial">
+    <h2>The duckies are our&nbsp;<i>content</i></h2>
+<div class="fragment" data-fragment-index="0">They make bathtime fun!</div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<span style="font-size: 35.9947624206543px;">
+    <br>
+</span>
+</div>
+<div class="fragment" data-fragment-index="0">
+<span style="font-size: 35.9947624206543px;">Blog posts, comments, podcasts, users...</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span style="font-size: 35.9947624206543px;">Any node or entity!</span>
+</div>
+</section>
+<section data-background-image="images/bathtub3.png" data-background-size="initial">
+    <h2>Duckies come in different colors</h2>
+<div class="fragment" data-fragment-index="0">
+<span style="font-size: 35.9947624206543px;">Just like content comes in different types!</span>
+    <br>
+</div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div class="fragment" data-fragment-index="1">Admin &gt; Structure &gt; Content Types</div>
+</section>
+</section>
+<section>
+    <section data-background-image="images/800px-Rubberduck-artillery.jpg">
+        <h2>
+            <br>
+        </h2>
+<h2>But there's a problem</h2>
+<div>
+        <br>
+    </div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>How do we get our ducks in a row?</div>
+<div>
+<font style="font-size: 18px;">image source: Gummiente, Wikimedia Commons</font>
+</div>
+</section>
+<section>
+<h2>Views</h2>
+<h3>A programmable net for our ducks!</h3>
+<ul>
+  <li class="fragment">Selects the ducks (content) we want</li>
+  <li class="fragment">Presents in the format and location we choose</li>
+</ul>
+</section>
+<section>
+  <h2>A view</h2>
+  <div>A single set of:</div>
+  <ul>
+    <li class="fragment">Selection criteria</li>
+    <li class="fragment">Presentation Format</li>
+    <li class="fragment">Location to display</li>
+  </ul>
+</section>
+<section>
+<h2>
+<span style="font-size: 76.35253143310547px;">Components of a view</span>
+        <br>
+</h2>
+<div>
+<img src="images/View_Components.png" style="">
+        <span style="font-size: 75.96px;">
+            <br>
+        </span>
+</div>
+    </section>
+    <section>
+<h2>
+<span style="font-size: 75.96px;">Displays</span>
+        <br>
+</h2>
+<div class="fragment">Contains all other configurations in the view</div>
+<div class="fragment">Results in a single page, block, RSS feed, etc.</div>
+    </section>
+    <section>
+<h2>Filtering CRITERIA</h2>
+<div class="fragment">The kind of ducks we want</div>
+</section>
+<section>
+<h2>Sort Criteria</h2>
+<div class="fragment">How to order our ducks</div>
+</section>
+<section>
+<h2>Formatting</h2>
+<div class="fragment">How to present our ducks</div>
+<div class="fragment">within the display</div>
+</section>
+</section>
+<section>
+    <section data-background-size="initial" data-background-image="images/installing_views.png">
+        <h2>Installing Views</h2>
+<div>
+        <br>
+    </div>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>drupal.org/project/views</div>
+</section>
+<section data-background-size="initial">
+<h2>Downloading CTooLs</h2>
+<div class="fragment">
+<span style="font-size: 35.963829040527344px;">Required for Views on Drupal 7.x</span>
+    <br>
+</div>
+<div class="fragment">
+    <span style="font-size: 35.963829040527344px;">drupal.org/project/ctools</span>
+</div>
+<div class="fragment">Get the version that matches your Views version!</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+<h2>
+<span style="font-size: 75.96px;">Positioning Files</span>
+</h2>
+<div>
+    <ul style="list-style: none;">
+<li>
+            <span style="font-size: 35.963829040527344px;">&lt;drupal_root&gt;/</span>
+            <br>
+</li>
+        <ul style="list-style: none;" font-size:="">sites/
+            
+            <ul style="list-style: none;" font-size:="">all/
+                
+                <ul style="list-style: none;" font-size:="">modules/
+                    
+                </ul>
+</ul>
+</ul>
+</ul>
+</div>
+
+</section>
+<section>
+    <h2>Enabling</h2>
+<div>
+<img src="images/Modules___drupal7.nitori.png" style="width: 927.3144218329425px; height: 516.8347721099854px; max-height: none; max-width: none;">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Required Modules</h2>
+<div>
+<img src="images/Modules___drupal7_2.nitori.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Success!</h2>
+<div>
+<img src="images/Modules___drupal7_3.nitori.png" style="">
+    <br>
+</div>
+</section>
+<section data-background-image="images/ExperienceServerBIJ.png">
+    <h2>Don't be like this guy</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>Never install modules on a live site!</div>
+<div>
+<br>
+</div>
+<div>
+<font style="font-size: 18px;">Image copyright Paramount Pictures</font>
+</div>
+</section>
+</section>
+<section>
+    <section>
+<h2>
+<span style="font-size: 75.96px;">Making a simple view</span>
+        <br>
+</h2>
+<div>
+        <span style="font-size: 75.96px;">
+            <br>
+        </span>
+        </div>
+<div>Display all nodes of type "Basic Page" in&nbsp;descending&nbsp;order</div>
+    </section>
+    <section>
+        <h2>Structure &gt; Views</h2>
+<div>
+<img src="images/Structure___drupal7.nitori_1.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Views List</h2>
+<div class="fragment">Modules may provide their own default views!</div>
+<div>
+<img src="images/Structure___drupal7.nitori_2.png" style="width: 836.4595684999576px; height: 468.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Add new View</h2>
+<div>
+<img src="images/Structure___drupal7.nitori_3.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+<h2>Naming Convention</h2>
+<div class="fragment">Not required, but...</div>
+<div class="fragment">A great idea for sites with lots of views</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code style="text-align: center;"><font style="font-size: 42px;"><i>orgPrefix</i>_<i>viewName</i> </font></code></pre>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>View "Show" Types</h2>
+<div>
+    <br>
+</div>
+<div>
+<ul>
+<li>Users</li>
+<li>Taxonomy Terms</li>
+<li>
+<b>Content</b>
+</li>
+<li>Comments</li>
+<li>Files</li>
+<li>Content Revisions</li>
+<li>Module/Theme/Theme Engine</li>
+</ul>
+</div>
+</section>
+<section>
+    <h2>Basic View Selection Criteria</h2>
+<div>
+<img src="images/Add_new_view___drupal7.nitori.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Basic Page details</h2>
+<div>
+<img src="images/Add_new_view___drupal7.nitori_2.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>basic block details</h2>
+<div>
+<img src="images/Add_new_view___drupal7.nitori_3.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Completed View</h2>
+<div>
+<img src="images/Add_new_view___drupal7.nitori_4.png" style="font-size: 35.963829040527344px; width: 830.9578149960074px; height: 514.8347721099854px; max-height: none; max-width: none;">
+    <br>
+</div>
+</section>
+</section>
+<section>
+    <section>
+        <h2>Editing Views</h2>
+<div>Admin &gt; Structure &gt; Views</div>
+<div>
+<img src="images/Editing_Views___drupal7.nitori.png" style="width: 618.9669557723581px; height: 482.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>The Edit View Page</h2>
+<div>&nbsp;<img src="images/Editing_Views___drupal7.nitori_1.png" style="font-size: 35.963829040527344px; width: 761.9764734607294px; height: 524.8347721099854px; max-height: none; max-width: none;">
+</div>
+    </section>
+    <section>
+        <h2>Parts of the view Editor</h2>
+<div>
+<img src="images/Editing_Views___drupal7.nitori_0.png" style="width: 382.02208570169336px; height: 524.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+</section>
+<section>
+    <section>
+<h2>
+<span style="font-size: 76.35253143310547px;">Creating a "Tracker" view</span>
+</h2>
+<div>
+        <br>
+        </div>
+<div class="fragment">New display, same view!</div>
+<div class="fragment">Table of "Basic Page" content</div>
+<div class="fragment">Tab of our existing view page</div>
+<div class="fragment">Exposed Filters</div>
+    </section>
+    <section>
+        <h2>Creating a new Display</h2>
+<div>Add &gt; Page</div>
+<div>
+<img src="images/Tracker_view_1.png" style="width: 806.8731653681567px; height: 459.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Change the display name</h2>
+<div class="fragment">Users won't see this, but it's useful for you!</div>
+<div>
+<img src="images/Tracker_view_2.png" style="width: 792.8355463918316px; height: 451.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Page Title</h2>
+<div class="fragment">Can affect all displays!</div>
+<div>
+<img src="images/Tracker_view_3.png" style="width: 807.5454017524721px; height: 455.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>
+    <br>
+</h2>
+<h2>
+    <br>
+</h2>
+<h2>Overrides</h2>
+<div class="fragment">All displays share:</div>
+<div>
+    <ul>
+<li class="fragment">The same filter criteria</li>
+        <li class="fragment">The same sort criteria</li>
+        <li class="fragment">Other configurations</li>
+    </ul>
+<div class="fragment">Until you override them!</div>
+</div>
+
+</section>
+        <section>
+            <h2>Using Formatting</h2>
+<div>Controls how content is printed within the display</div>
+<div>
+<img src="images/Tracker_view_4.png" style="width: 820.9107843444818px; height: 467.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Built-in formats</h2>
+<div>
+<img src="images/Tracker_view_5.png" style="">
+            <br>
+</div>
+        </section>
+        <section>
+<h2>Typical uses for Built-in formats</h2>
+<div class="fragment">Grid = Image Gallery</div>
+<div class="fragment">HTML List = Item lists in Blocks</div>
+<div class="fragment">Table = "Tracker" type pages</div>
+<div class="fragment">Unformatted List = "River of News" type pages</div>
+        </section>
+        <section>
+            <h2>Override Format for this Display</h2>
+<div>
+<img src="images/Tracker_view_6.png" style="">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Table Formatting Settings</h2>
+<div class="fragment">But we're missing something...</div>
+<div>
+<img src="images/Tracker_view_7.png" style="width: 831.4389985767256px; height: 473.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+    </section>
+    <section>
+        <section>
+<h2>Specifying Fields</h2>
+<div class="fragment">Used primarily in with the "Table" format</div>
+<div class="fragment">Also used with heavily themed "HTML List" displays</div>
+        </section>
+        <section>
+            <h2>Add new Field</h2>
+<div>
+<img src="images/specifying_fields_1.png" style="">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Override add Field</h2>
+<div class="fragment">Our block display uses fields too, only add fields to tracker!</div>
+<div>
+<img src="images/specifying_fields_2.png" style="font-size: 35.963829040527344px; width: 815.6466772283599px; height: 464.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Post Date</h2>
+<div>
+<img src="images/specifying_fields_3.png" style="">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Body</h2>
+<div class="fragment">Don't worry, we'll truncate it later!</div>
+<div>
+<img src="images/specifying_fields_4.png" style="width: 836.7031056928475px; height: 476.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Links</h2>
+<div>Jump right to editing or deleting the content</div>
+<div>
+<img src="images/specifying_fields_4.png" style="width: 819.1560819724411px; height: 466.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+        <section>
+            <h2>Author?</h2>
+<div class="fragment">errrr....what?</div>
+<div>
+<img src="images/specifying_fields_5.png" style="width: 850.7407246691726px; height: 484.83477210998535px; max-height: none; max-width: none;">
+            <br>
+</div>
+        </section>
+    </section>
+    <section>
+        <section>
+<h2>
+        <span style="font-size: 75.96px;">
+            <br>
+        </span>
+        </h2>
+<h2>
+<span style="font-size: 75.96px;">Relationships</span>
+        <br>
+</h2>
+<div>Link your view to content outside your filter criteria</div>
+    </section>
+    <section>
+        <h2>Add new relationship</h2>
+<div>
+<img src="images/relationships_1.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Content: Author</h2>
+<div>Brings author user information into our view</div>
+<div>
+<img src="images/relationships_2.png" style="width: 815.6466772283599px; height: 464.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Requiring a Relationship</h2>
+<div>Ignores content that doesn't have the relationship</div>
+<div>
+<img src="images/relationships_3.png" style="width: 836.7031056928475px; height: 476.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Using a relationship</h2>
+<div>Use it like any other data in the view</div>
+<div>
+<img src="images/relationships_4.png" style="width: 840.2125104369288px; height: 478.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Adding the author's username</h2>
+<div>
+<img src="images/relationships_5.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Our view so far...</h2>
+<div>
+<img src="images/relationships_7.png" style="width: 880.7324252063341px; height: 500.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+</section>
+<section>
+    <section>
+        <h2>REARRANGING&nbsp;fields</h2>
+<div>
+<img src="images/rearrange_1.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Click and drag rows</h2>
+<div>
+<img src="images/rearrange_2.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Apply to display</h2>
+<div>
+<img src="images/rearrange_3.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Better<span style="font-size: 75.96px;">! But...</span>
+</h2>
+<div>That body is way too long</div>
+<div>
+<img src="images/rearrange_4.png" style="width: 831.4389985767256px; height: 473.83477210998535px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+</section>
+<section>
+    <section>
+    </h2>
+<h2>Field Settings</h2>
+<div>Control the display/features of individual fields</div>
+</section>
+<section>
+    <h2>Just click the field</h2>
+<div>
+<img src="images/field_settings_1.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Formatter</h2>
+<div>Controls how the field is rendered</div>
+<div>
+<img src="images/field_settings_2.png" style="width: 822.6654867165224px; height: 468.83477210998535px; max-height: none; max-width: none;">
+    <br>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>Important Formatters</h2>
+<div>
+    <br>
+</div>
+<h3 class="fragment">Summary</h3>
+<div class="fragment">Display the summary if given or body</div>
+<div>
+<br>
+</div>
+<h3 class="fragment">Summary or Trimmed</h3>
+<div class="fragment">Display summary or text trimmed to word boundary</div>
+</section>
+<section>
+    <h2>Much better!</h2>
+<div>
+<img src="images/field_settings_3.png" style="">
+    <br>
+</div>
+</section>
+</section>
+<section>
+    <section>
+<h2>Exposed Filters</h2>
+<div>Making our view user-friendly and powerful</div>
+</section>
+<section>
+    <h2>First, add a new filter</h2>
+<div>
+<img src="images/exposed_filters.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Select Criteria</h2>
+<div>
+<img src="images/exposed_filters_1.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Exposing a filter</h2>
+<div>
+<img src="images/exposed_filters_2.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Change label and apply</h2>
+<div>
+<img src="images/exposed_filters_3.png" style="">
+    <br>
+</div>
+</section>
+<section>
+    <h2>Using an Exposed Filter</h2>
+<div>
+<img src="images/exposed_filters_4.png" style="">
+    <br>
+</div>
+</section>
+<section>
+<h2>Ideal Fields for Exposed Filters</h2>
+<div>
+<ul>
+<li class="fragment">
+<span style="font-size: 35.963829040527344px; text-align: center;">Content type</span>
+<br>
+</li>
+<li class="fragment">
+<span style="font-size: 35.963829040527344px; text-align: center;">Tags</span>
+</li>
+<li class="fragment">
+<span style="font-size: 35.963829040527344px; text-align: center;">Author</span>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+    <section>
+        <h2>Exporting Views</h2>
+<div class="fragment">Allows views to be moved from site to site</div>
+<div class="fragment">
+<img src="images/Export_View_1.png" style="width: 746.4735721562743px; height: 481.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Copy Export Code</h2>
+<div>
+<img src="images/Export_View_2.png" style="width: 795.2524757587832px; height: 514.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+</section>
+<section>
+    <section>
+        <h2>Import View</h2>
+<div>
+<img src="images/import_view_1.png" style="width: 846.0485959332691px; height: 523.4554977416992px; max-height: none; max-width: none;">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Paste View Code</h2>
+<div>
+<img src="images/import_view_2.png" style="">
+        <br>
+</div>
+    </section>
+    <section>
+        <h2>Modify and save</h2>
+<div>
+<img src="images/import_view_3.png" style="">
+        <br>
+</div>
+    </section>
+</section>
+<section>
+  <section>
+    <h2>When not to use views</h2>
+    <div>
+      <img src="images/GoldenHammer.jpg" style="height: 529px;">
+    </div>
+  </section>
+  <section>
+    <h2>You don't really need it</h2>
+    <div>The default pages are enough</div>
+    <ul>
+      <li class="fragment">Blogs</li>
+      <li class="fragment">Podcast websites</li>
+      <li class="fragment">Simple news sites</li>
+    </ul>
+  </section>
+  <section>
+    <h2>You're customizations are minor</h2>
+    <div>Write a simple module to provide your page</div>
+    <div class="fragment">Or pay someone else to do it.</div>
+  </section>
+  <section>
+    <h2>Views is too <em>heavy</em></h2>
+    <div>
+      Views requires too much server resources for your site
+    </div>
+    <ul>
+      <li class="fragment">Shared hosting</li>
+      <li class="fragment">Very large and/or busy sites</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <h2>Further Resources</h2>
+  <div><em>Drupal 7</em></div>
+  <ul><li>http://www.packtpub.com/drupal-7/book</li></ul>
+  <div><br></div>
+  <div><em>The Definitive Guide to Drupal 7</em></div>
+  <ul><li>http://definitivedrupal.org/</li></ul>
+  <div><br></div>
+  <div><em>Using Drupal</em></div>
+  <ul><li>http://www.usingdrupal.com/</li></ul>
+</section>
+<section>
+  <h2>Presented using reveal.js</h2>
+  <div>http://lab.hakim.se/reveal-js/</div>
+  <div>https://github.com/hakimel/reveal.js</div>
+  <div><br></div>
+  <div style="font-size:18px" class="fragment">Use it, it's awesome.</div>
+</section>
+<section>
+  <h1>Thank you!</h1>
+  <div>http://deninet.com/files/introToViews/index.html</div>
+  <div>https://github.com/rashfeather/introToViews</div>
+</section>
+</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
